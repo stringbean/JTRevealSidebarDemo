@@ -10,6 +10,7 @@
 #import "UINavigationItem+JTRevealSidebarV2.h"
 #import "JTRevealSidebarV2Delegate.h"
 #import <objc/runtime.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface UIViewController (JTRevealSidebarV2Private)
 
@@ -166,6 +167,8 @@ static char *revealedStateKey;
         
         self.view.frame = (CGRect){CGPointZero, self.view.frame.size};
     }
+
+    [self showShadowWithOffset:CGSizeMake(-10, 1)];
     
     [UIView setAnimationDidStopSelector:@selector(animationDidStop2:finished:context:)];
     [UIView setAnimationDelegate:self];
@@ -201,6 +204,8 @@ static char *revealedStateKey;
 //        self.view.transform = CGAffineTransformTranslate([self baseTransform], width, 0);
         self.view.frame = (CGRect){CGPointZero, self.view.frame.size};        
     }
+
+    [self showShadowWithOffset:CGSizeMake(10, 1)];
     
     [UIView setAnimationDidStopSelector:@selector(animationDidStop2:finished:context:)];
     [UIView setAnimationDelegate:self];
@@ -208,6 +213,13 @@ static char *revealedStateKey;
     //NSLog(@"%@", NSStringFromCGAffineTransform(self.view.transform));
     
     [UIView commitAnimations];
+}
+
+- (void) showShadowWithOffset:(CGSize)offset {
+    self.view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.view.layer.shadowOffset = offset;
+    self.view.layer.shadowOpacity = 0.5;
+    self.view.layer.shadowRadius = 10;
 }
 
 @end
